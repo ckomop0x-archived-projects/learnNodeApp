@@ -134,3 +134,7 @@ fabric.properties
 
 # Some materials
 _materials
+
+#Sensitive variables
+variables.env
+/variables.env
