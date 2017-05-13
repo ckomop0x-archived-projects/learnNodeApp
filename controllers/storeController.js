@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Store = mongoose.model('Store')
 
 exports.homePage = (req, res) => {
-	console.log(11)
 	res.render('index')
 }
 
@@ -11,7 +10,28 @@ exports.addStore = (req, res) => {
 };
 
 exports.createStore = async (req, res) => {
-	const store = new Store(req.body);
-	await store.save()
-	res.redirect('/')
+	const store = await (new Store(req.body)).save();
+	req.flash('success', `Successfully Created ${store.name}. Care to leave a review?`);
+	res.redirect(`/store/${store.slug}`)
+};
+
+exports.getStores = async (req, res) => {
+	// 1. Query database for a list of all stores
+	const stores = await Store.find();
+	res.render('stores', { title: 'Stores', stores} )
+};
+
+exports.editStore = async (req, res) => {
+	// 1. Find the store given the ID
+	const store = await Store.findOne({_id: req.params.id})
+	// 2. Confirm they are the owner of the store
+	// TODO Owners
+	// 3. Render out the render form so the user can update their store
+	res.render('editStore', { title: `Edit store ${store.name}`, store })
+};
+
+exports.updateStore = async (req, res) => {
+	// 1. Find and update the store
+
+	// Redirect them to the store and tell them it worked
 };
