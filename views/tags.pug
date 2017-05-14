@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  .inner
+    h2 #{title} (#{activeTag})
+    //pre= h.dump(tags)
+    ul.tags
+      each tag in tags
+        li.tag
+          a.tag__link(href=`/tags/${tag._id}` class=(tag._id === activeTag ? 'tag__link--active' : ''))
+            span.tag__text #{tag._id}
+            span.tag__count #{tag.count}
